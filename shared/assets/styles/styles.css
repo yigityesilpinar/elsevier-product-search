@@ -1,0 +1,100 @@
+@font-face {
+  font-family: "Roboto Custom";
+  src: url('../fonts/Roboto-Light.ttf') format('truetype');
+}
+
+html, body, .todo {
+  font-family: "Roboto Custom", serif;
+  margin: 0;
+  padding: 0;
+}
+input, button{
+  font-family: "Roboto Custom", serif;
+}
+
+html{
+  background: url("../img/background.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+div#app{
+  width: 50%;
+  padding-top: 3%;
+  margin: auto;
+  font-size: 1em;
+}
+
+ul.product-list{
+  padding-bottom: 1em;
+}
+
+div#app .product{
+  margin: 1em;
+}
+
+.product .book-link{
+  color: #4099FF;
+  text-decoration: none;
+}
+
+
+/* Base styles for spans */
+span::before, span::after
+{
+  content: '';
+  position: absolute;
+}
+
+div#app .container {
+  background-color: white;
+  max-width: 550px;
+  min-height: 650px;
+  min-width: 400px;
+  box-shadow: 5px 5px 5px #888888;
+}
+
+div#search__product__div {
+  position: relative;
+  padding-top: 1em;
+}
+
+
+.search__span::before{
+  content: url("../img/search.png");
+  color: #d6d5d2;
+  left: 0.8em;
+  bottom: 1.1em;
+}
+
+input#searchProductTitle{
+  width: 90%;
+  height: 30px;
+  font-size: 1em;
+  padding-left: 4%;
+  margin-left: 1em;
+  margin-bottom: 1em;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+input#searchProductTitle:focus{
+  outline: none
+}
+
+
+@media screen and (max-width: 1200px) {
+  div#app{
+    margin-left:10%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  div#app{
+    margin-left:5%;
+  }
+
+}
