@@ -8,9 +8,9 @@
 "use strict";
 
 import cors from "cors";
-import routes from '../routes/';
+import productRoutes from '../routes/productRoutes';
 
 export default function ConfigApiRoutes(app) {
     app.use(cors());
-    app.use(routes);
+    app.use(productRoutes);
 }
