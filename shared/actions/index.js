@@ -8,12 +8,38 @@
 "use strict";
 
 import * as actionTypes from "../constants/actionTypes";
-// import productApi from "../api-services/productApi";
+
 export function searchProductTitle(pattern) {
     return{
         type: actionTypes.SEARCH_PRODUCT_TITLE,
         payload: {
             pattern: pattern
+        }
+    };
+}
+
+// Initialization of loading
+export function loadProducts() {
+    return{
+        type: actionTypes.LOAD_PRODUCTS
+    };
+}
+
+// If async operation is successful
+export function loadProductsSuccess(response) {
+    return{
+        type: actionTypes.LOAD_PRODUCTS_SUCCESS,
+        payload: {
+            response: response
+        }
+    };
+}
+// If async operation is not successful
+export function loadProductsFail(errorResponse) {
+    return{
+        type: actionTypes.LOAD_PRODUCTS_FAIL,
+        payload: {
+            errorResponse: errorResponse
         }
     };
 }

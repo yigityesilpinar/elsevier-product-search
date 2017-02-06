@@ -16,6 +16,21 @@ export default function appReducer(state = [], action){
         {
            return state;
         }
+        case actionTypes.LOAD_PRODUCTS:
+        {
+            return state;
+        }
+        case actionTypes.LOAD_PRODUCTS_SUCCESS:
+        {
+            const loadedProducts = action.payload.response.data;
+
+            return Object.assign({}, state,
+                {products: loadedProducts , lastAction:action});
+        }
+        case actionTypes.LOAD_PRODUCTS_FAIL:
+        {
+            return state;
+        }
         default:{
             return state;
         }

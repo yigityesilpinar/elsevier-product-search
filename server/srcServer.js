@@ -48,6 +48,11 @@ app.use(require('webpack-dev-middleware')(compiler, {
 app.use(require('webpack-hot-middleware')(compiler));
 apiRouteConfig(app);
 
+// Api routes which are not defined response with 404 not found status
+app.get('/api/*', function(req, res) {
+      res.status(404).send('NOT FOUND');
+});
+
 // All requests to index.html, Single page application
 app.get('*', function(req, res) {
   res.sendFile(path.join( __dirname, '../src/index.html'));
