@@ -33,6 +33,7 @@ async function saveAppData(AppModel, appData) {
         })
         .catch(function (err) {
             if (err) {
+                /* eslint-disable no-console */
                 console.error((`Error occurred saving Contact ${err}`));
                 return false;
             }
@@ -52,7 +53,7 @@ function stripComments(content) {
         return content.replace(regex, "{");
     }
 
-    return content
+    return content;
 }
 
 async function seedData() {

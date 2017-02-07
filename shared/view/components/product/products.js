@@ -4,6 +4,9 @@
  * Render products
  *
  **/
+
+import {displayTitle, displaySubtitle} from './title';
+
 function ordinal_suffix_of(i) {
     let j = i % 10,
         k = i % 100;
@@ -20,22 +23,15 @@ function ordinal_suffix_of(i) {
 }
 
 function renderProduct(product, IDOM) {
-    let {Title} = product.data;
     let isBook = product.type && product.type === 'book';
     IDOM.elementOpen('li','',['id','product__id__'+product.id, 'class', 'product']);
     if(isBook){
         IDOM.elementOpen('a','',['href','http://www.sciencedirect.com/science/book/'+product.id, 'class', 'book-link', 'target', '_blank']);
     }
 
-    IDOM.elementOpen('span','',['class', 'title']);
-    IDOM.text(Title.TitleText);
-    IDOM.elementClose('span');
+    displayTitle(product, IDOM);
 
-    if(Title.Subtitle){
-        IDOM.elementOpen('span','',['class', 'subtitle']);
-        IDOM.text(', '+Title.Subtitle);
-        IDOM.elementClose('span');
-    }
+    displaySubtitle(product, IDOM);
     if(product.version){
         IDOM.elementOpen('span','',['class', 'version']);
         IDOM.text(', '+ ordinal_suffix_of(product.version) + " Edition");

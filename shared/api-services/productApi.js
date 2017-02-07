@@ -8,7 +8,7 @@
 
 // axios for simplified XHR
 import * as axios from "axios";
-import {Observable} from "rxjs/Rx"
+import {Observable} from "rxjs/Rx";
 // action creators
 import * as actions from '../actions/';
 let baseURL = window.location.origin;

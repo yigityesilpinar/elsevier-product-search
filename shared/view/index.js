@@ -9,7 +9,7 @@ import IDOM from  'incremental-dom';
 import deepfreeze from 'deep-freeze';
 import SearchBox from './components/search/searchBox';
 import {renderProducts, preRenderProducts} from './components/product/products';
-import {filterByTitle} from './components/filter/filter'
+import {filterByTitle} from './components/filter/filter';
 import * as actionTypes from '../constants/actionTypes';
 
 export function render(el, state) {
@@ -50,10 +50,10 @@ export function reRender(el, state) {
 
     // when there is a change in Title/Subtitle search input
     if(lastAction.type === actionTypes.SEARCH_PRODUCT_TITLE){
-
+        const filteredProducts = filterByTitle(state);
         // render only the changed part (patch)
         IDOM.patchInner(productListEl, () => {
-            renderProducts(filterByTitle(state), IDOM);
+            renderProducts(filteredProducts, IDOM);
         });
     }
 

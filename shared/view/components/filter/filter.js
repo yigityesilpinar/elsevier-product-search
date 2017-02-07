@@ -15,10 +15,33 @@ function filterByPatterns(products, patterns) {
     let filtered =  products.filter(product =>{
         let {TitleText, Subtitle} = product.data.Title;
         // filter condition
-        if(Subtitle){
-            return   TitleText.match(regex) || Subtitle.match(regex);
+        let match = TitleText.match(regex);
+        let isTitle = true;
+        if(!match && Subtitle){
+            match = (Subtitle.match(regex));
+            isTitle =false;
         }
-        return  TitleText.match(regex);
+        if(match !=null) {
+            // if first match create the array else push to array
+            if (!product.TitleMatches) {
+                product.TitleMatches = [{
+                    start: match.index,
+                    end: match.index + pattern.length,
+                    isTitle: isTitle,
+                    match: match
+                }];
+            }
+            else {
+                product.TitleMatches.push({
+                    start: match.index,
+                    end: match.index + pattern.length,
+                    isTitle: isTitle,
+                    match: match
+                });
+            }
+        }
+
+        return  match;
     });
 
     if(filtered.length > 0){
@@ -36,15 +59,14 @@ function filterByPatterns(products, patterns) {
 export function filterByTitle(state) {
     // title search pattern
     let pattern = state.appState.titleSearchPattern;
-    // copy array products
-    let products = [...(state.appState.products)];
+    // simple deep copy of products
+    let products = JSON.parse(JSON.stringify(state.appState.products));
     // regex, if search pattern only includes ' ' (empty) chars
     if(pattern === "" || pattern.match(/^[\s]+$/)){
         // return unmodified products array
         return products;
     }
 
-    let matches = {};
     // escape special characters
     let escaped = pattern.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     // case insensitive regular expression
@@ -53,15 +75,19 @@ export function filterByTitle(state) {
     let filtered =  products.filter(product =>{
         let {TitleText, Subtitle} = product.data.Title;
         let match = TitleText.match(regex);
-        if(Subtitle){
-            match = TitleText.match(regex) || Subtitle.match(regex);
+        let isTitle = true;
+        if(!match && Subtitle){
+            match = (Subtitle.match(regex));
+            isTitle =false;
         }
         // keep match position in string to display the match
         if(match !=null){
-            matches[product.id] =  {
+            product.TitleMatches = [{
                 start: match.index,
-                end: match.index + pattern.length
-            };
+                end: match.index + pattern.length,
+                isTitle: isTitle,
+                match: match
+            }];
         }
         // filter condition
         return  match;
@@ -74,7 +100,12 @@ export function filterByTitle(state) {
         // if the pattern includes more than one words(sub-patterns), filter products which includes
         if(escaped.split(" ").length > 1){
             let patterns = escaped.split(" ");
-
+            // remove empty space " " matches
+            for (let i = patterns.length-1; i >= 0; i--) {
+                if (patterns[i] === " " || patterns[i] === "") {
+                    patterns.splice(i, 1);
+                }
+            }
             return filterByPatterns(products, patterns);
         }
         // no match

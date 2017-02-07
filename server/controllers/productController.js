@@ -76,7 +76,7 @@ export function getProducts(appData) {
         Object.keys(versionFamily[version]).forEach(function (key) {
             // reference value for the version family, in for workById[`id`] where `id` is the productId
             // take the ID from the workById[`id`] string
-            let productId = versionFamily[version][key].value.match(/^worksById\[([^\]]+)/)[1];;
+            let productId = versionFamily[version][key].value.match(/^worksById\[([^\]]+)/)[1];
             let productIndex = products.findIndex(p => p.id === productId);
 
             Object.defineProperty(products[productIndex], 'version', {
