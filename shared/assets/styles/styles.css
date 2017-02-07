@@ -56,20 +56,20 @@ div#app .container {
   box-shadow: 5px 5px 5px #888888;
 }
 
-div#search__product__div {
+.search-product-div {
   position: relative;
   padding-top: 1em;
 }
 
 
-.search__span::before{
+.search-span::before{
   content: url("../img/search.png");
   color: #d6d5d2;
   left: 0.8em;
   bottom: 1.1em;
 }
 
-input#searchProductTitle{
+.search-span input{
   width: 90%;
   height: 30px;
   font-size: 1em;
@@ -81,7 +81,7 @@ input#searchProductTitle{
   border-right: 0;
 }
 
-input#searchProductTitle:focus{
+.search-span input:focus{
   outline: none
 }
 

@@ -7,34 +7,58 @@
 
 import IDOM from  'incremental-dom';
 import deepfreeze from 'deep-freeze';
+import SearchBox from './components/search/searchBox';
+import {renderProducts, preRenderProducts} from './components/product/products';
+import {filterByTitle} from './components/filter/filter'
+import * as actionTypes from '../constants/actionTypes';
 
 export function render(el, state) {
     // state should not be mutated, deepfreeze the state; throw error if state mutated
     deepfreeze(state);
+    // Custom component searchBox, constructs with options object which takes property options for inner input
+    const searchTitleBox = new SearchBox({
+        placeholder: "Search in Product Titles...",
+        id: "searchProductTitle"
+    });
 
+    // render initial view
     IDOM.patch(el, () => {
         appWrapperOpen();
-        renderSearch();
+        searchTitleBox.render(IDOM);
+        preRenderProducts(IDOM);
         appWrapperClose();
     });
+
 }
 
-// Re-render the necessary DIFF only depending on the actionType
+// Re-render only the necessary DIFF depending on the actionType
 export function reRender(el, state) {
 
-    // freeze the state to be sure its not being mutated
+    // freeze the state to be sure its not being mutated, define all properties writable:false
     deepfreeze(state);
-    //let actionType = state.lastAction.type;
+    let {lastAction, products} = state.appState;
+    let productListEl = document.getElementById("productList");
+
+    // when products are loaded from the server
+    if(lastAction.type === actionTypes.LOAD_PRODUCTS_SUCCESS){
+
+        // render only the changed part (patch)
+        IDOM.patchInner(productListEl, () => {
+            renderProducts(products, IDOM);
+        });
+    }
+
+    // when there is a change in Title/Subtitle search input
+    if(lastAction.type === actionTypes.SEARCH_PRODUCT_TITLE){
+
+        // render only the changed part (patch)
+        IDOM.patchInner(productListEl, () => {
+            renderProducts(filterByTitle(state), IDOM);
+        });
+    }
+
 }
 
-function renderSearch() {
-    const statics = ["id", "searchProductTitle", "placeholder","Search in Product Titles", "onfocus","this.placeholder = ''", "onblur","this.placeholder = 'Search in Product Titles'"];
-    IDOM.elementOpen('div', '',['id','search__product__div']);
-    IDOM.elementOpen('span', '',['class','search__span']);
-    IDOM.elementVoid('input', '',statics);
-    IDOM.elementClose('span');
-    IDOM.elementClose('div');
-}
 
 function appWrapperOpen() {
     IDOM.elementOpen('div', '',['id','app']);

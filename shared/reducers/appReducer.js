@@ -14,7 +14,10 @@ export default function appReducer(state = [], action){
     switch(action.type) {
         case actionTypes.SEARCH_PRODUCT_TITLE:
         {
-           return state;
+            let {pattern} = action.payload;
+
+            return Object.assign({}, state,
+                {titleSearchPattern: pattern , lastAction:action});
         }
         case actionTypes.LOAD_PRODUCTS:
         {
