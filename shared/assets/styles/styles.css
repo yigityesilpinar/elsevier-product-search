@@ -27,20 +27,32 @@ div#app{
   font-size: 1em;
 }
 
-ul.product-list{
+ul.product-list, ul.chapter-list{
   padding-bottom: 1em;
 }
 
-div#app .product{
+div#app .product, div#app .chapter{
   margin: 1em;
+  position: relative;
 }
 
-.product .book-link{
+.product .book-link, .chapter .chapter-link{
   color: #4099FF;
   text-decoration: none;
 }
-
-
+.product.book, .book .chapter{
+  list-style: none;
+}
+.product .book-link::before, .chapter .chapter-link::before{
+  position: absolute;
+  background-image: url("../img/pdf.png");
+  background-size: 1.5em 1.5em;
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  left:-1.5em;
+  content:"";
+}
 /* Base styles for spans */
 span::before, span::after
 {
