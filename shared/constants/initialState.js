@@ -14,5 +14,5 @@ export const appState = {
         keywordSearchPattern: "",
         vectors: []
     },
-    products: [], // keeps the products to display in UI
+    products: [] // keeps the products to display in UI
 };

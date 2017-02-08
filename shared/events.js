@@ -25,8 +25,8 @@ export function registerEventHandlers(Observable) {
     let onInputKeyword$ = Observable.fromEvent(searchKeywordInput, 'input').map(event => event.target);
     onInputKeyword$.subscribe((element)=>{
         store.dispatch(actions.searchProductKeyword(element.value.toLowerCase()));
-        // keyword search is always in lowerCase
-        element.value = element.value.toLowerCase();
+        // keyword search is always in lowerCase, remove leading spaces (auto-complete visual issue)
+        element.value = element.value.toLowerCase().replace(/^\s+$/g,'');
     });
 
     // Add onkeyup event listener for searchProductKeyword, only listen for RIGHT ARROW

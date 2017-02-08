@@ -61,7 +61,7 @@ export function reRender(el, state) {
         const products = getProductByVector(state, filter);
         let searchVectorInput = document.getElementById("searchProductKeyword");
         if(products && products.length=== 1 && products[0].vectorMatch){
-            // if vector match, single product
+            // if vector match, single product, do auto-complete
             let product = products[0];
             displayVectorAutoComplete(searchVectorInput, product.vectorMatch.name);
             IDOM.patchInner(productListEl, () => {
@@ -69,14 +69,14 @@ export function reRender(el, state) {
             });
         }
         else if(products && products.length > 1){
-            // if returned all products means empty search
+            // if returned multiple results, no auto-complete
             destroyVectorAutoComplete(searchVectorInput);
             IDOM.patchInner(productListEl, () => {
                 renderProducts(products, IDOM);
             });
         }
         else{
-            // search is not empty but no result found
+            // no result found
             destroyVectorAutoComplete(searchVectorInput);
             IDOM.patchInner(productListEl, () => {
                 renderProducts([], IDOM);
