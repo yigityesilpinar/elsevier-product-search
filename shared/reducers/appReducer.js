@@ -19,20 +19,38 @@ export default function appReducer(state = [], action){
             return Object.assign({}, state,
                 {titleSearchPattern: pattern , lastAction:action});
         }
+        case actionTypes.SEARCH_PRODUCT_KEYWORD:
+        {
+            let {pattern} = action.payload;
+
+            return Object.assign({}, state,
+                {keywordSearchPattern: pattern , lastAction:action});
+
+        }
         case actionTypes.LOAD_PRODUCTS:
         {
-            return state;
+            return Object.assign({}, state, {lastAction:action});
         }
         case actionTypes.LOAD_PRODUCTS_SUCCESS:
         {
-            const loadedProducts = action.payload.response.data;
-
-            return Object.assign({}, state,
-                {products: loadedProducts , lastAction:action});
+            return Object.assign({}, state, {lastAction:action});
         }
         case actionTypes.LOAD_PRODUCTS_FAIL:
         {
-            return state;
+            return Object.assign({}, state, {lastAction:action});
+        }
+
+        case actionTypes.LOAD_VECTORS:
+        {
+            return Object.assign({}, state, {lastAction:action});
+        }
+        case actionTypes.LOAD_VECTORS_SUCCESS:
+        {
+            return Object.assign({}, state, {lastAction:action, vectors: action.payload.response.data});
+        }
+        case actionTypes.LOAD_VECTORS_FAIL:
+        {
+            return Object.assign({}, state, {lastAction:action});
         }
         default:{
             return state;

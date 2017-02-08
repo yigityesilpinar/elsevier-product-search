@@ -10,13 +10,14 @@ import appReducer from './reducers';
 import {appState} from './constants/initialState';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic } from './epics/';
-import {loadProducts} from './actions/';
+import {loadProducts, loadVectors} from './actions/';
 const epicMiddleware = createEpicMiddleware(rootEpic);
 // apply epicMiddleware to handle async operations with Observable pattern
 const store = createStore(appReducer, appState, applyMiddleware(epicMiddleware));
 // dispatch initial load action to load products from the server
 store.dispatch(loadProducts());
-
+// dispatch initial load action to load vectors from the server
+store.dispatch(loadVectors());
 export default store;
 
 

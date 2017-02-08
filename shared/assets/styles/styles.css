@@ -21,7 +21,7 @@ html{
 }
 
 div#app{
-  width: 50%;
+  width: 66%;
   padding-top: 3%;
   margin: auto;
   font-size: 1em;
@@ -50,7 +50,6 @@ span::before, span::after
 
 div#app .container {
   background-color: white;
-  max-width: 550px;
   min-height: 650px;
   min-width: 400px;
   box-shadow: 5px 5px 5px #888888;
@@ -62,7 +61,13 @@ div#app .container {
 }
 
 
-.search-span::before{
+#search_span_title::before{
+  content: url("../img/search.png");
+  color: #d6d5d2;
+  left: 0.8em;
+}
+
+#search_span_keyword::before{
   content: url("../img/search.png");
   color: #d6d5d2;
   left: 0.8em;

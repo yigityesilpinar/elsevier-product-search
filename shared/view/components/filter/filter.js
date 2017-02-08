@@ -22,7 +22,6 @@ function filterByPatterns(products, patterns) {
             isTitle =false;
         }
         if(match !=null) {
-            // if first match create the array else push to array
             if (!product.TitleMatches) {
                 product.TitleMatches = [{
                     start: match.index,
@@ -60,7 +59,7 @@ export function filterByTitle(state) {
     // title search pattern
     let pattern = state.appState.titleSearchPattern;
     // simple deep copy of products
-    let products = JSON.parse(JSON.stringify(state.appState.products));
+    let products = JSON.parse(JSON.stringify(state.products));
     // regex, if search pattern only includes ' ' (empty) chars
     if(pattern === "" || pattern.match(/^[\s]+$/)){
         // return unmodified products array

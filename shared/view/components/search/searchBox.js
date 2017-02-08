@@ -11,7 +11,6 @@ export default class SearcBox {
     {   // all optional
         placeholder: String,
         id: String, String // input id
-        divId: String
     }
     */
     constructor(options){
@@ -24,12 +23,15 @@ export default class SearcBox {
             inputStatics.push(this.id);
         }
         this.inputStatics = inputStatics;
-        this.divId = options.divId;
-        this.divStatics =["class", "search-product-div"];
-        if(this.divId){
-            this.divStatics.push("id");
-            this.divStatics.push(this.divId);
+
+        let spanStatics =['class', 'search-span'];
+        this.spanId = options.spanId;
+        if(this.spanId){
+            spanStatics.push("id");
+            spanStatics.push(this.spanId);
         }
+        this.spanStatics = spanStatics;
+
         this.render = this.render.bind(this);
 
     }
@@ -37,11 +39,9 @@ export default class SearcBox {
     // render searchBox
     // injected dependency @IDOM (incremental-dom)
     render(IDOM){
-        IDOM.elementOpen('div', '', this.divStatics);
-        IDOM.elementOpen('span', '', ['class', 'search-span']);
+        IDOM.elementOpen('span', '', this.spanStatics);
         IDOM.elementVoid('input', '', this.inputStatics);
         IDOM.elementClose('span');
-        IDOM.elementClose('div');
     }
 
 }

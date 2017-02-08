@@ -8,8 +8,10 @@
 "use strict";
 export const appState = {
     appState: {
-        products: [],
         lastAction: null,
-        titleSearchPattern: ""
-    }
+        titleSearchPattern: "",
+        keywordSearchPattern: "",
+        vectors: []
+    },
+    products: [],
 };

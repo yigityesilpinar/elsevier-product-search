@@ -9,8 +9,14 @@
 
 import { combineReducers }      from "redux";
 import appReducer from  "./appReducer";
-
+import productReducer, * as productImports from  "./productReducer";
 
 export default combineReducers({
-  appState: appReducer
+  appState: appReducer,
+  products: productReducer
 });
+
+
+// Selector, function prepares data to display in UI
+export const getFilteredProducts = (state = [], filter) =>
+    productImports.getFilteredProducts(state.products, state.appState.vectors, filter);

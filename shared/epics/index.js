@@ -7,8 +7,9 @@
  **/
 
 import { combineEpics } from 'redux-observable';
-import { productEpic } from './productEpic';
+import { productEpic, vectorEpic } from './productEpic';
 
 export const rootEpic = combineEpics(
-    productEpic
+    productEpic,
+    vectorEpic
 );

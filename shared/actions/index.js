@@ -18,6 +18,16 @@ export function searchProductTitle(pattern) {
     };
 }
 
+export function searchProductKeyword(pattern) {
+    return{
+        type: actionTypes.SEARCH_PRODUCT_KEYWORD,
+        payload: {
+            pattern: pattern
+        }
+    };
+}
+
+
 // Initialization of loading
 export function loadProducts() {
     return{
@@ -38,6 +48,32 @@ export function loadProductsSuccess(response) {
 export function loadProductsFail(errorResponse) {
     return{
         type: actionTypes.LOAD_PRODUCTS_FAIL,
+        payload: {
+            errorResponse: errorResponse
+        }
+    };
+}
+
+// Initialization of loading
+export function loadVectors() {
+    return{
+        type: actionTypes.LOAD_VECTORS
+    };
+}
+
+// If async operation is successful
+export function loadVectorsSuccess(response) {
+    return{
+        type: actionTypes.LOAD_VECTORS_SUCCESS,
+        payload: {
+            response: response
+        }
+    };
+}
+// If async operation is not successful
+export function loadVectorsFail(errorResponse) {
+    return{
+        type: actionTypes.LOAD_VECTORS_FAIL,
         payload: {
             errorResponse: errorResponse
         }

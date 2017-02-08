@@ -4,6 +4,39 @@
  * Handles the AppData (joins and organize) as a products array and returns
  *
  */
+
+// return all the product vectors as (name, value, id) array and sorted DESC
+export function getVectors(appData) {
+    let {versionFamiliesById, worksById, doisById} = appData;
+
+    let allVectors =  [];
+
+    for(let versionFamilyId in versionFamiliesById){
+
+        let versionFamily = versionFamiliesById[versionFamilyId];
+        let version = Object.keys(versionFamily)[0];
+
+        Object.keys(versionFamily[version]).forEach(function (key) {
+            let vectorIndex =Object.keys(versionFamily)[1];
+            let productId = versionFamily[version][key].value.match(/^worksById\[([^\]]+)/)[1];
+            if(vectorIndex)
+            {
+
+                for(let vectorKey in  versionFamily[vectorIndex] ) {
+                    if(versionFamily[vectorIndex].hasOwnProperty(vectorKey)){
+                        allVectors.push(
+                            {name: vectorKey, value: versionFamily[vectorIndex][vectorKey], id:productId}
+                        );
+                    }
+                }
+
+            }
+        });
+    }
+    return allVectors.sort((a,b)=> b.value- a.value);
+}
+
+
 export function getProducts(appData) {
 
     let {versionFamiliesById, worksById, doisById} = appData;
@@ -67,7 +100,7 @@ export function getProducts(appData) {
 
     });
 
-    // Join the version and vectors (If Exist) with products array
+    // Join the version to products array
     for(let versionFamilyId in versionFamiliesById){
 
         let versionFamily = versionFamiliesById[versionFamilyId];
@@ -86,16 +119,6 @@ export function getProducts(appData) {
                 value: version
             });
 
-            let vectorIndex =Object.keys(versionFamily)[1];
-            if(vectorIndex)
-            {
-                Object.defineProperty(products[productIndex], 'vectors', {
-                    enumerable: true,
-                    configurable: false,
-                    writable: false,
-                    value: versionFamily[vectorIndex]
-                });
-            }
         });
     }
 

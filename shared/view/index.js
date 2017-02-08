@@ -7,24 +7,20 @@
 
 import IDOM from  'incremental-dom';
 import deepfreeze from 'deep-freeze';
-import SearchBox from './components/search/searchBox';
+import {renderSearch} from './components/search/index';
 import {renderProducts, preRenderProducts} from './components/product/products';
 import {filterByTitle} from './components/filter/filter';
 import * as actionTypes from '../constants/actionTypes';
+import {getFilteredProducts} from '../reducers';
 
 export function render(el, state) {
     // state should not be mutated, deepfreeze the state; throw error if state mutated
     deepfreeze(state);
-    // Custom component searchBox, constructs with options object which takes property options for inner input
-    const searchTitleBox = new SearchBox({
-        placeholder: "Search in Product Titles...",
-        id: "searchProductTitle"
-    });
 
     // render initial view
     IDOM.patch(el, () => {
         appWrapperOpen();
-        searchTitleBox.render(IDOM);
+        renderSearch(IDOM);
         preRenderProducts(IDOM);
         appWrapperClose();
     });
@@ -36,7 +32,8 @@ export function reRender(el, state) {
 
     // freeze the state to be sure its not being mutated, define all properties writable:false
     deepfreeze(state);
-    let {lastAction, products} = state.appState;
+    let {lastAction} = state.appState;
+    const {products} = state;
     let productListEl = document.getElementById("productList");
 
     // when products are loaded from the server
@@ -52,6 +49,15 @@ export function reRender(el, state) {
     if(lastAction.type === actionTypes.SEARCH_PRODUCT_TITLE){
         const filteredProducts = filterByTitle(state);
         // render only the changed part (patch)
+        IDOM.patchInner(productListEl, () => {
+            renderProducts(filteredProducts, IDOM);
+        });
+    }
+
+    if(lastAction.type === actionTypes.SEARCH_PRODUCT_KEYWORD){
+        let filter = lastAction.payload.pattern;
+        // Using selector getFilteredProducts
+        const filteredProducts = getFilteredProducts(state, filter);
         IDOM.patchInner(productListEl, () => {
             renderProducts(filteredProducts, IDOM);
         });

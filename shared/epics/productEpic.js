@@ -6,7 +6,7 @@
  **/
 
 import * as actionTypes from '../constants/actionTypes';
-import {handleLoad} from '../api-services/productApi';
+import {handleLoad, handleVectorLoad} from '../api-services/productApi';
 
 // redux-observable epic
 export const productEpic =  (action$) =>{
@@ -16,4 +16,9 @@ export const productEpic =  (action$) =>{
 };
 
 
-
+// handle async loading of vectors
+export const vectorEpic =  (action$) =>{
+    // Handle async loading of products
+    return action$.ofType(actionTypes.LOAD_VECTORS)
+        .mergeMap( action => handleVectorLoad());
+};

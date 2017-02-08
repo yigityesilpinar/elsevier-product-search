@@ -41,3 +41,29 @@ export function handleLoad() {
     });
 
 }
+
+export function handleVectorLoad() {
+
+
+    const client = axios.create({baseURL: baseURL});
+
+    const ajax = Observable.fromPromise(client.get("/api/vectors").then(
+        function (response) {
+            return response;
+        }
+    ).catch(
+        // do not throw error, instead return the response with error data
+        function (response) {
+            return response;
+        }
+    ));
+
+    return ajax.map(response => {
+        if(response.status === 200){
+            return actions.loadVectorsSuccess(response);
+        }
+        else{
+            return actions.loadVectorsFail(response);
+        }
+    });
+}
