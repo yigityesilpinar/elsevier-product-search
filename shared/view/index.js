@@ -11,7 +11,8 @@ import {renderSearch} from './components/search/index';
 import {renderProducts, preRenderProducts} from './components/product/products';
 import {filterByTitle} from './components/filter/filter';
 import * as actionTypes from '../constants/actionTypes';
-import {getFilteredProducts} from '../reducers';
+import {getProductByVector} from '../reducers';
+import {displayVectorAutoComplete, destroyVectorAutoComplete} from './utils';
 
 export function render(el, state) {
     // state should not be mutated, deepfreeze the state; throw error if state mutated
@@ -56,11 +57,32 @@ export function reRender(el, state) {
 
     if(lastAction.type === actionTypes.SEARCH_PRODUCT_KEYWORD){
         let filter = lastAction.payload.pattern;
-        // Using selector getFilteredProducts
-        const filteredProducts = getFilteredProducts(state, filter);
-        IDOM.patchInner(productListEl, () => {
-            renderProducts(filteredProducts, IDOM);
-        });
+        // Using selector getProductByVector
+        const products = getProductByVector(state, filter);
+        let searchVectorInput = document.getElementById("searchProductKeyword");
+        if(products && products.length=== 1 && products[0].vectorMatch){
+            // if vector match, single product
+            let product = products[0];
+            displayVectorAutoComplete(searchVectorInput, product.vectorMatch.name);
+            IDOM.patchInner(productListEl, () => {
+                renderProducts(products, IDOM);
+            });
+        }
+        else if(products && products.length > 1){
+            // if returned all products means empty search
+            destroyVectorAutoComplete(searchVectorInput);
+            IDOM.patchInner(productListEl, () => {
+                renderProducts(products, IDOM);
+            });
+        }
+        else{
+            // search is not empty but no result found
+            destroyVectorAutoComplete(searchVectorInput);
+            IDOM.patchInner(productListEl, () => {
+                renderProducts([], IDOM);
+            });
+        }
+
     }
 
 }

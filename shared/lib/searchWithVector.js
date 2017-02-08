@@ -6,9 +6,9 @@
  **/
 
 function normalizePattern(pattern) {
-    let escaped = pattern.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-    let patterns = escaped.split(" ");
-    // remove empty space " " matches
+
+    let patterns = pattern.split(" ");
+    // remove empty space " " matches and empty strings ""
     for (let i = patterns.length-1; i >= 0; i--) {
         if (patterns[i] === " " || patterns[i] === "") {
             patterns.splice(i, 1);
@@ -20,14 +20,37 @@ function normalizePattern(pattern) {
 export function searchWithVector(products,vectors, pattern) {
 
     const patterns = normalizePattern(pattern);
-
-    // if vectors not loaded yet
-    if(vectors.length === 0){
+    let cleanPattern = patterns.join(" ");
+    // if vectors not loaded yet, do not implement search return the same array
+    if(vectors.length === 0 || !cleanPattern){
         return products;
     }
 
-    // TODO filtering logic for vector search
+    const found = vectors.find(vector=> vector.name.startsWith(cleanPattern));
 
-    // if no match
-    return [];
+    if(found){
+        let foundProduct = products.find(product => product.id === found.id);
+        if(foundProduct){
+            Object.defineProperty(foundProduct, 'vectorMatch', {
+                enumerable: true,
+                configurable: false,
+                writable: false,
+                value: found
+            });
+            Object.defineProperty(foundProduct, 'displayChapters', {
+                enumerable: true,
+                configurable: false,
+                writable: false,
+                value: true
+            });
+            let result = [];
+            result.push(foundProduct);
+            return result;
+        }
+    }
+    else{
+        // if no match
+        return [];
+    }
+
 }

@@ -26,4 +26,17 @@ export function registerEventHandlers(Observable) {
     onInputKeyword$.subscribe((text)=>{
         store.dispatch(actions.searchProductKeyword(text));
     });
+
+    // Add onkeyup event listener for searchProductKeyword, only listen for RIGHT ARROW
+    let onKeyUpKeyword$ = Observable.fromEvent(searchKeywordInput, 'keyup').filter(event => event.keyCode === 39);
+    onKeyUpKeyword$.subscribe((event)=>{
+        let vectorAutoComplete = document.getElementById("vectorAutoComplete");
+        // if auto complete text exist, complete with RIGHT ARROW
+        if(vectorAutoComplete != null){
+            let input = document.getElementById("searchProductKeyword");
+            if(input.getAttribute("data-match")!=" "){
+                input.value = input.getAttribute("data-match");
+            }
+        }
+    });
 }

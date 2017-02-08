@@ -18,6 +18,9 @@ export default class SearcBox {
         this.id = options.id;
         this.placeholder = options.placeholder || "Search in Elsevier Products";
         let inputStatics = ["type", "search", "placeholder", this.placeholder, "onfocus", "this.placeholder = ''", "onblur", "this.placeholder ='"+this.placeholder + "'"];
+        // initial data-match, is used in Vector Search
+        inputStatics.push("data-match");
+        inputStatics.push(" ");
         if(this.id){
             inputStatics.push("id");
             inputStatics.push(this.id);
@@ -31,7 +34,6 @@ export default class SearcBox {
             spanStatics.push(this.spanId);
         }
         this.spanStatics = spanStatics;
-
         this.render = this.render.bind(this);
 
     }

@@ -18,5 +18,5 @@ export default combineReducers({
 
 
 // Selector, function prepares data to display in UI
-export const getFilteredProducts = (state = [], filter) =>
-    productImports.getFilteredProducts(state.products, state.appState.vectors, filter);
+export const getProductByVector = (state = [], filter) =>
+    productImports.getProductByVector(state.products, state.appState.allProducts, state.appState.vectors, filter);

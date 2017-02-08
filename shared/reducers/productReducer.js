@@ -13,11 +13,6 @@ export default function productReducer(state = [], action){
     deepFreeze(state);
     // state is products array in product reducer
     switch(action.type) {
-        case actionTypes.SEARCH_PRODUCT_KEYWORD:
-        {
-            let {pattern} = action.payload;
-            return state;
-        }
         case actionTypes.LOAD_PRODUCTS_SUCCESS:
         {
             // products loaded from server will be the initial state for the products reducer
@@ -30,12 +25,13 @@ export default function productReducer(state = [], action){
 }
 
 // Selector, function prepares data to display in UI
-//
-export const getFilteredProducts = (state = [], vectors, filter) =>{
-    if(!filter || filter=== "" || filter===" ") { return state;}
-    // state is products array for this selector
+export const getProductByVector = (state = [], allProducts, vectors, filter) =>{
+
+    if(!filter || filter === "" || filter ===" ") {
+        return allProducts;}
+
     // simple deep copy of products
-    let products = JSON.parse(JSON.stringify(state));
+    let products = JSON.parse(JSON.stringify(allProducts));
 
     return  searchWithVector(products, vectors, filter);
 };

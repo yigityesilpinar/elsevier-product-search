@@ -33,7 +33,9 @@ export default function appReducer(state = [], action){
         }
         case actionTypes.LOAD_PRODUCTS_SUCCESS:
         {
-            return Object.assign({}, state, {lastAction:action});
+            let {response} = action.payload;
+            // KEEP the backup products at state.appState, for UI kept in state.products handled with prodcutReducer
+            return Object.assign({}, state, {lastAction:action, allProducts:response.data});
         }
         case actionTypes.LOAD_PRODUCTS_FAIL:
         {

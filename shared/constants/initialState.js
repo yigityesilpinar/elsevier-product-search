@@ -8,10 +8,11 @@
 "use strict";
 export const appState = {
     appState: {
+        allProducts:[], // keeps the initially loaded products without change (backup products)
         lastAction: null,
         titleSearchPattern: "",
         keywordSearchPattern: "",
         vectors: []
     },
-    products: [],
+    products: [], // keeps the products to display in UI
 };
