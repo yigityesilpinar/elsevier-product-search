@@ -1,7 +1,7 @@
 /**
  * Created by Yigit Yesilpinar on 7.02.2017.
  *
- * Display/Highlight the match if there is, for Product Title/Subtitle Search
+ * Display/Highlight the match if there is for Product Title/Subtitle Search
  *
  **/
 
@@ -48,21 +48,21 @@ function displayMultipleMatch(Title, TitleMatches, IDOM, isFirst = true) {
     // Subject of the match, Title or Subtitle
     const Subject =  titleMatch.isTitle ? Title.TitleText : Title.Subtitle;
     if(isFirst){
-        // only the first time (isFirst true by default then false)
+        // only the first time (isFirst defalut true then false)
         const stringBeforeMatches = Subject.slice(0, titleMatch.start);
         let prefix = titleMatch.isTitle ? "": ", ";
         IDOM.text(prefix + stringBeforeMatches);
     }
 
     const matchString = Subject.slice(titleMatch.start, titleMatch.end);
-    // Wrap the matches with the span class="title-match"
+    // Wrap the match with the span class="title-match"
     IDOM.elementOpen('span','',['class', 'title-match']);
     IDOM.text(matchString);
     IDOM.elementClose('span');
 
     if(TitleMatches.length > 0){
         let nextTitleMatch  = TitleMatches[0];
-        const stringAfterMatch = Subject.slice(titleMatch.end, nextTitleMatch.start);
+        const stringAfterMatch =Subject.slice(titleMatch.end, nextTitleMatch.start);
         IDOM.text(stringAfterMatch);
         return displayMultipleMatch(Title, TitleMatches, IDOM, false);
     }
@@ -79,12 +79,12 @@ function displayMultipleMatch(Title, TitleMatches, IDOM, isFirst = true) {
 function makeUnique(TitleMatches) {
     let uniqueMatches = [];
 
-    // sorted with pattern length DESC to check whether longer pattern includes shorter one or not
+    // sorted with pattern length DESC to check whether longer pattern includes shorter one or not, or if there is a collision
     const sortedMatches = TitleMatches.sort((match,match2) => match2.match[0].length - match.match[0].length);
     sortedMatches.forEach(titleMatch => {
         let found = uniqueMatches.find(unique => unique.match[0] === titleMatch.match[0]);
-        let included = uniqueMatches.find(unique => unique.match[0].includes(titleMatch.match[0])
-        && ( unique.start === titleMatch.start ||  unique.end > titleMatch.start));
+        // handle pattern match collision
+        let included = uniqueMatches.find(unique => ( unique.start < titleMatch.end && unique.end >= titleMatch.start));
         if(!found && !included){
             uniqueMatches.push(titleMatch);
         }
