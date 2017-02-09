@@ -1,0 +1,23 @@
+{
+  "name": "elsevier-product-search-production",
+  "version": "1.0.0",
+  "description": "Solution application for the Elsevier assignment, Search in Elsevier products",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Yigit Yesilpinar",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "babel-runtime": "^6.3.19",
+    "chalk": "^1.1.3",
+    "cheerio": "^0.22.0",
+    "compression": "1.6.1",
+    "cors": "^2.8.1",
+    "cross-env": "1.0.7",
+    "express": "4.13.4",
+    "mongoose": "^4.7.5",
+    "serve-favicon": "^2.3.2"
+  }
+}

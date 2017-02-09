@@ -43,3 +43,6 @@ jspm_packages
 
 # webpack dist
 dist
+
+# production folder
+production

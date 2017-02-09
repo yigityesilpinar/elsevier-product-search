@@ -37,7 +37,7 @@ div#app .product, div#app .chapter{
 }
 
 .product .book-link, .chapter .chapter-link{
-  color: #4099FF;
+  color: #0074D9;
   text-decoration: none;
 }
 .product.book, .book .chapter{
@@ -107,6 +107,12 @@ div#app .container {
   background: rgba(255, 255,0, 1);
 }
 
+span#infoPopUp {
+  position: absolute;
+  right: 25%;
+  color: #2ECC40;
+}
+
 span.vectorMatch {
   position: absolute;
   left: 1em;
@@ -119,11 +125,19 @@ span.vectorMatch {
   div#app{
     margin-left:10%;
   }
+  span#infoPopUp {
+    right: 12%;
+  }
+}
+@media screen and (max-width: 900px) {
+  span#infoPopUp {
+    width: 150px;
+    right: 6%;
+  }
 }
 
 @media screen and (max-width: 700px) {
   div#app{
     margin-left:5%;
   }
-
 }
